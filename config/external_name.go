@@ -9,8 +9,12 @@ import "github.com/upbound/upjet/pkg/config"
 // ExternalNameConfigs contains all external name configurations for this
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
-	// Import requires using a randomly generated ID from provider: nl-2e21sda
-	"null_resource": config.IdentifierFromProvider,
+  // Name is a parameter and it is also used to import the resource.
+  "hloud_repository": config.NameAsIdentifier,
+  // The import ID consists of several parameters. We'll use branch name as
+  // the external name.
+  "hcloud_branch": config.TemplatedStringAsIdentifier("branch", "{{ .parameters.repository }}:{{ .external_name }}:{{ .parameters.source_branch }}"),
+  "hloud_server": config.NameAsIdentifier,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
